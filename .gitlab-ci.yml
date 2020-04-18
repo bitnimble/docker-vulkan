@@ -23,6 +23,6 @@ release:
     - apk add make
     - docker login -u "${REGISTRY_USER}" -p "${REGISTRY_TOKEN}"
 
-    - make all VERSION="$(CI_COMMIT_TAG)"
-    - make push VERSION="$(CI_COMMIT_TAG)"
-    - make push-short VERSION="$(CI_COMMIT_TAG)"
+    - make all VERSION="${CI_COMMIT_TAG}"
+    - make push VERSION="${CI_COMMIT_TAG}"
+    - make push-short VERSION="${CI_COMMIT_TAG}"
