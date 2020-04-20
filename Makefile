@@ -25,12 +25,12 @@ FULL_VERSION := $(VULKAN)-cuda-$(CUDA)-$(VERSION)
 all: ubuntu18.04 ubuntu16.04
 
 push:
-	docker push "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu16.04"
-	docker push "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04"
+	$(DOCKER) push "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu16.04"
+	$(DOCKER) push "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04"
 
 push-short:
-	docker tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04" "$(REGISTRY)/vulkan:$(VULKAN)"
-	docker push "$(REGISTRY)/vulkan:$(VULKAN)"
+	$(DOCKER) tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04" "$(REGISTRY)/vulkan:$(VULKAN)"
+	$(DOCKER) push "$(REGISTRY)/vulkan:$(VULKAN)"
 
 ubuntu16.04:
 	$(DOCKER) build --pull \
