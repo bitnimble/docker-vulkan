@@ -32,6 +32,10 @@ push-short:
 	$(DOCKER) tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04" "$(REGISTRY)/vulkan:$(VULKAN)"
 	$(DOCKER) push "$(REGISTRY)/vulkan:$(VULKAN)"
 
+push-latest:
+	$(DOCKER) tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04" "$(REGISTRY)/vulkan:$(VULKAN)"
+	$(DOCKER) push "$(REGISTRY)/vulkan:$(VULKAN)"
+
 ubuntu16.04:
 	$(DOCKER) build --pull \
 		--build-arg VULKAN_VERSION="v$(VULKAN)" \

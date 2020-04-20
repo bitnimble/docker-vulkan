@@ -35,6 +35,7 @@ The Vulkan container posses four major components:
 The overall version of the Vulkan container has two forms:
 - The long form: `${VULKAN_VERSION}-cuda-${CUDA_VERSION}-${CONTAINER_VERSION}-${PLATFORM}`
 - The short form: `${VULKAN_VERSION}`
+- The latest tag: `latest`
 
 The long form is a unique tag that once pushed will always refer to the same container.
 This means that no updates will be made to that tag and it will always point to the same container.
@@ -42,7 +43,9 @@ This means that no updates will be made to that tag and it will always point to 
 The short form refers to the latest CONTAINER_VERSION and CUDA_VERSION with the platform fixed to ubuntu18.04.
 In practice this tag is rarely updated and we are more likely to bump the CUDA_VERSION with an update of the VULKAN_VERSION.
 
-We do not maintain multiple version branches.
+The latest tag refers to the latest short form.
+
+Note: We do not maintain multiple version branches.
 
 ## Releases
 
