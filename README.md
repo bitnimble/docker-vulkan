@@ -30,7 +30,7 @@ The Vulkan container posses four major components:
 - The Vulkan Version (e.g: 1.1.121)
 - The CUDA Version (e.g: 10.1)
 - The Version of the container (e.g: beta.0)
-- The platform of the container (e.g: ubuntu18.03)
+- The platform of the container (e.g: ubuntu18.04)
 
 The overall version of the Vulkan container has two forms:
 - The long form: `${VULKAN_VERSION}-cuda-${CUDA_VERSION}-${CONTAINER_VERSION}-${PLATFORM}`
