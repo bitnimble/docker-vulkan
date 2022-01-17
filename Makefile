@@ -13,39 +13,31 @@
 # limitations under the License.
 
 DOCKER   ?= docker
-REGISTRY ?= nvidia
+REGISTRY ?= ghcr.io/anonymousthing
 
-VULKAN  ?= 1.1.121
-CUDA    ?= 10.1
+VULKAN  ?= 1.2.203
+CUDA    ?= 11.0.3
 VERSION ?= beta.0
 
 FULL_VERSION := $(VULKAN)-cuda-$(CUDA)-$(VERSION)
 
 .PHONY: all
-all: ubuntu18.04 ubuntu16.04
+all: ubuntu20.04
 
 push:
-	$(DOCKER) push "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu16.04"
-	$(DOCKER) push "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04"
+	$(DOCKER) push "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu20.04"
 
 push-short:
-	$(DOCKER) tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04" "$(REGISTRY)/vulkan:$(VULKAN)"
+	$(DOCKER) tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu20.04" "$(REGISTRY)/vulkan:$(VULKAN)"
 	$(DOCKER) push "$(REGISTRY)/vulkan:$(VULKAN)"
 
 push-latest:
-	$(DOCKER) tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04" "$(REGISTRY)/vulkan:$(VULKAN)"
+	$(DOCKER) tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu20.04" "$(REGISTRY)/vulkan:$(VULKAN)"
 	$(DOCKER) push "$(REGISTRY)/vulkan:$(VULKAN)"
 
-ubuntu16.04:
+ubuntu20.04:
 	$(DOCKER) build --pull \
 		--build-arg VULKAN_VERSION="v$(VULKAN)" \
 		--build-arg CUDA_VERSION="$(CUDA)" \
-		--tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu16.04" \
-		--file docker/Dockerfile.ubuntu18.04 .
-
-ubuntu18.04:
-	$(DOCKER) build --pull \
-		--build-arg VULKAN_VERSION="v$(VULKAN)" \
-		--build-arg CUDA_VERSION="$(CUDA)" \
-		--tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu18.04" \
-		--file docker/Dockerfile.ubuntu18.04 .
+		--tag "$(REGISTRY)/vulkan:$(FULL_VERSION)-ubuntu20.04" \
+		--file docker/Dockerfile.ubuntu20.04 .

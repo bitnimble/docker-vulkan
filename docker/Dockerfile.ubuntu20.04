@@ -13,11 +13,12 @@
 # limitations under the License.
 
 ARG CUDA_VERSION
-FROM ubuntu:16.04 as vulkan-khronos
+FROM ubuntu:20.04 as vulkan-khronos
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     build-essential \
     ca-certificates \
+    cmake \
     git \
     libegl1-mesa-dev \
     libwayland-dev \
@@ -25,16 +26,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxkbcommon-dev \
     libxrandr-dev \
     python3 \
+    python3-distutils \
     wget && \
     rm -rf /var/lib/apt/lists/*
 
-# Install cmake version 3.15
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.2/cmake-3.15.2-Linux-x86_64.tar.gz && \
-    tar -xvf cmake-3.15.2-Linux-x86_64.tar.gz && cp cmake-3.15.2-Linux-x86_64/bin/cmake /usr/local/bin && \
-    mkdir -p /usr/local/share/cmake-3.15 && \
-    cp -r cmake-3.15.2-Linux-x86_64/share/cmake-3.15/* /usr/local/share/cmake-3.15 && \
-    rm -rf cmake-3.15.2-Linux-x86_64*
-
+ARG VULKAN_VERSION
 # Download and compile vulkan components
 RUN ln -s /usr/bin/python3 /usr/bin/python && \
     git clone https://github.com/KhronosGroup/Vulkan-ValidationLayers.git /opt/vulkan && \
@@ -42,17 +38,24 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && \
     mkdir build && cd build && ../scripts/update_deps.py && \
     cmake -C helper.cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake --build . && make install && ldconfig && \
-    mkdir -p /usr/local/lib && cp -a Vulkan-Loader/build/install/lib/* /usr/local/lib && \
     mkdir -p /usr/local/include/vulkan && cp -r Vulkan-Headers/build/install/include/vulkan/* /usr/local/include/vulkan && \
     mkdir -p /usr/local/share/vulkan/registry && \
     cp -r Vulkan-Headers/build/install/share/vulkan/registry/* /usr/local/share/vulkan/registry && \
-    rm -rf /opt/vulkan
+    git clone https://github.com/KhronosGroup/Vulkan-Loader /opt/vulkan-loader && \
+    cd /opt/vulkan-loader && git checkout "${VULKAN_VERSION}" && \
+    mkdir build && cd build && ../scripts/update_deps.py && \
+    cmake -C helper.cmake -DCMAKE_BUILD_TYPE=Release .. && \
+    cmake --build . && make install && ldconfig && \
+    mkdir -p /usr/local/lib && cp -a loader/*.so* /usr/local/lib && \
+    rm -rf /opt/vulkan && rm -rf /opt/vulkan-loader
 
-FROM nvidia/cudagl:${CUDA_VERSION}-base-ubuntu16.04
+
+
+FROM nvidia/cudagl:${CUDA_VERSION}-base-ubuntu20.04
 
 ENV NVIDIA_DRIVER_CAPABILITIES compute,graphics,utility
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libx11-xcb-dev \
     libxkbcommon-dev \
     libwayland-dev \
