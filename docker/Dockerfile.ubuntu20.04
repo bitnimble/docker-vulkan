@@ -39,6 +39,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && \
     cmake -C helper.cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake --build . && make install && ldconfig && \
     mkdir -p /usr/local/include/vulkan && cp -r Vulkan-Headers/build/install/include/vulkan/* /usr/local/include/vulkan && \
+    cp -r Vulkan-Headers/include/* /usr/local/include/vulkan && \
     mkdir -p /usr/local/share/vulkan/registry && \
     cp -r Vulkan-Headers/build/install/share/vulkan/registry/* /usr/local/share/vulkan/registry && \
     git clone https://github.com/KhronosGroup/Vulkan-Loader /opt/vulkan-loader && \
@@ -53,7 +54,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && \
 
 FROM nvidia/cudagl:${CUDA_VERSION}-base-ubuntu20.04
 
-ENV NVIDIA_DRIVER_CAPABILITIES compute,graphics,utility
+ENV NVIDIA_DRIVER_CAPABILITIES all
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libx11-xcb-dev \

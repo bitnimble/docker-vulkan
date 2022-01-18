@@ -4,21 +4,15 @@
 
 **Make sure you have installed the latest [NVIDIA driver](https://github.com/NVIDIA/nvidia-docker/wiki/Frequently-Asked-Questions#how-do-i-install-the-nvidia-driver) and the [NVIDIA Container Runtime](https://github.com/NVIDIA/nvidia-docker).**
 
-## CUDA 10.1 + OpenGL (glvnd 1.1) + Vulkan 1.1.121
+## CUDA 11.4.2 + OpenGL (glvnd 1.1) + Vulkan 1.2.203
 
-- `1.1.121-cuda-10.1-beta.0-ubuntu16.04` [(*docker/ubuntu16.04*)](https://gitlab.com/nvidia/container-images/vulkan/-/blob/beta.0/docker/Dockerfile.ubuntu16.04)
-- `1.1.121-cuda-10.1-beta.0-ubuntu18.04`, `1.1.121` [(*docker/ubuntu18.04*)](https://gitlab.com/nvidia/container-images/vulkan/-/blob/beta.0/docker/Dockerfile.ubuntu18.04)
-
-- `1.1.121-cuda-10.1-alpha` [(*10.1/base/Dockerfile*)](https://gitlab.com/nvidia/cuda/blob/ubuntu16.04/10.1/base/Dockerfile) + [(*glvnd/devel/Dockerfile*)](https://gitlab.com/nvidia/container-images/opengl/blob/ubuntu16.04/glvnd/devel/Dockerfile) + [(*vulkan/Dockerfile*)](https://gitlab.com/nvidia/container-images/vulkan/blob/ubuntu16.04/Dockerfile)
+- `1.2.203-cuda-11.4.2-beta.0-ubuntu20.04` [(*11.4.2/base/Dockerfile*)](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/11.4.2/ubuntu2004/base/Dockerfile) + [*(glvnd/devel/Dockerfile)*](https://gitlab.com/nvidia/container-images/opengl/-/blob/ubuntu20.04/glvnd/devel/Dockerfile) [(*vulkan/Dockerfile*)](https://github.com/anonymousthing/docker-vulkan/blob/master/docker/Dockerfile.ubuntu20.04)
 
 ## Run
 ```
 # To run the container
 # Docker >= 19.03
-# docker run --gpus all -ti --rm nvidia/vulkan:1.1.121
-
-# Docker < 19.03
-# docker run --runtime=nvidia -ti --rm nvidia/vulkan:1.1.121
+# docker run --gpus all -ti --rm ghcr.io/anonymousthing/vulkan:1.2.203-cuda-11.4.2-beta.0-ubuntu20.04
 
 # To build and run the vulkan samples
 Find instructions here: https://gitlab.com/nvidia/container-images/samples/tree/master/vulkan/ubuntu16.04
@@ -27,10 +21,10 @@ Find instructions here: https://gitlab.com/nvidia/container-images/samples/tree/
 ## Versioning
 
 The Vulkan container posses four major components:
-- The Vulkan Version (e.g: 1.1.121)
-- The CUDA Version (e.g: 10.1)
+- The Vulkan Version (e.g: 1.2.203)
+- The CUDA Version (e.g: 11.4.2)
 - The Version of the container (e.g: beta.0)
-- The platform of the container (e.g: ubuntu18.04)
+- The platform of the container (e.g: ubuntu20.04)
 
 The overall version of the Vulkan container has two forms:
 - The long form: `${VULKAN_VERSION}-cuda-${CUDA_VERSION}-${CONTAINER_VERSION}-${PLATFORM}`

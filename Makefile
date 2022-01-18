@@ -16,7 +16,7 @@ DOCKER   ?= docker
 REGISTRY ?= ghcr.io/anonymousthing
 
 VULKAN  ?= 1.2.203
-CUDA    ?= 11.0.3
+CUDA    ?= 11.4.2
 VERSION ?= beta.0
 
 FULL_VERSION := $(VULKAN)-cuda-$(CUDA)-$(VERSION)
